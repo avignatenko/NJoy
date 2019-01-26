@@ -1,0 +1,38 @@
+syntax = "proto2";
+
+package NJoy;
+
+enum UpdateType {
+  AXIS = 1;
+  BUTTON = 2;
+  HAT = 3;
+}
+
+message Axis {
+  required int32 index = 1;
+  required int32 value = 2;
+}
+
+message Button {
+  required int32 index = 1;
+  required  bool  value = 2;
+}
+
+message Hat {
+  required int32 index = 1;
+  required int32 value = 2;
+}
+
+message JoyData {
+  required UpdateType type = 1;
+  oneof test_oneof {
+    Axis axis = 2;
+	Button button = 3;
+	Hat hat = 4;
+  }
+}
+
+message JoyListData
+{
+  repeated JoyData data = 1;
+}
