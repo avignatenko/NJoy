@@ -74,6 +74,19 @@ public:
 
 private:
 
+    static int SDLHatToVJoy(int sdl)
+    {
+        switch (sdl)
+        {
+        case 0x00 : return -1;  //   SDL_HAT_CENTERED    0x00
+        case 0x01 : return  0; //#define SDL_HAT_UP          0x01
+        case 0x02 : return  1; //#define SDL_HAT_RIGHT       0x02
+        case 0x04 : return  2; //#define SDL_HAT_DOWN        0x04
+        case 0x08 : return  3; //#define SDL_HAT_LEFT        0x08
+        default:  return -1;
+        }
+    }
+
     void onReceived(const boost::system::error_code& error, std::size_t len)
     {
         // we're not stopping on error, just log it
@@ -95,7 +108,7 @@ private:
             case NJoy::AXIS:
             {
                 auto& axis = data.axis();
-                bool res = SetAxis(axis.value(), m_devId, axis.value());
+                bool res = SetAxis(axis.value(), m_devId, axis.index() + 1);
                 if (!res)
                 {
                     LOG(ERROR) << "Failed to set axis";
@@ -106,7 +119,7 @@ private:
             case NJoy::BUTTON:
             {
                 auto& button = data.button();
-                bool res = SetBtn(button.value(), m_devId, button.index());
+                bool res = SetBtn(button.value(), m_devId, button.index() + 1);
                 if (!res)
                 {
                     LOG(ERROR) << "Failed to set button";
@@ -118,7 +131,7 @@ private:
             case NJoy::HAT:
             {
                 auto& hat = data.hat();
-                bool res = SetDiscPov(hat.value(), m_devId, hat.index());
+                bool res = SetDiscPov(SDLHatToVJoy(hat.value()), m_devId, hat.index() + 1);
                 if (!res)
                 {
                     LOG(ERROR) << "Failed to set hat";
