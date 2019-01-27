@@ -3,9 +3,14 @@ syntax = "proto2";
 package NJoy;
 
 enum UpdateType {
-  AXIS = 1;
-  BUTTON = 2;
-  HAT = 3;
+  PING = 1;
+  AXIS = 2;
+  BUTTON = 3;
+  HAT = 4;
+}
+
+message Ping {
+  required int32 token = 1; 
 }
 
 message Axis {
@@ -26,9 +31,10 @@ message Hat {
 message JoyData {
   required UpdateType type = 1;
   oneof test_oneof {
-    Axis axis = 2;
-	Button button = 3;
-	Hat hat = 4;
+    Ping ping = 2;
+    Axis axis = 3;
+	Button button = 4;
+	Hat hat = 5;
   }
 }
 

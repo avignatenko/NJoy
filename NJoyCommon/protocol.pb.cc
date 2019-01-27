@@ -23,9 +23,15 @@ namespace protobuf_protocol_2eproto {
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_protocol_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_Axis;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_protocol_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_Button;
 extern PROTOBUF_INTERNAL_EXPORT_protobuf_protocol_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_Hat;
-extern PROTOBUF_INTERNAL_EXPORT_protobuf_protocol_2eproto ::google::protobuf::internal::SCCInfo<3> scc_info_JoyData;
+extern PROTOBUF_INTERNAL_EXPORT_protobuf_protocol_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_Ping;
+extern PROTOBUF_INTERNAL_EXPORT_protobuf_protocol_2eproto ::google::protobuf::internal::SCCInfo<4> scc_info_JoyData;
 }  // namespace protobuf_protocol_2eproto
 namespace NJoy {
+class PingDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<Ping>
+      _instance;
+} _Ping_default_instance_;
 class AxisDefaultTypeInternal {
  public:
   ::google::protobuf::internal::ExplicitlyConstructed<Axis>
@@ -45,6 +51,7 @@ class JoyDataDefaultTypeInternal {
  public:
   ::google::protobuf::internal::ExplicitlyConstructed<JoyData>
       _instance;
+  const ::NJoy::Ping* ping_;
   const ::NJoy::Axis* axis_;
   const ::NJoy::Button* button_;
   const ::NJoy::Hat* hat_;
@@ -56,6 +63,20 @@ class JoyListDataDefaultTypeInternal {
 } _JoyListData_default_instance_;
 }  // namespace NJoy
 namespace protobuf_protocol_2eproto {
+static void InitDefaultsPing() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::NJoy::_Ping_default_instance_;
+    new (ptr) ::NJoy::Ping();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::NJoy::Ping::InitAsDefaultInstance();
+}
+
+::google::protobuf::internal::SCCInfo<0> scc_info_Ping =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsPing}, {}};
+
 static void InitDefaultsAxis() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
@@ -109,8 +130,9 @@ static void InitDefaultsJoyData() {
   ::NJoy::JoyData::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<3> scc_info_JoyData =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 3, InitDefaultsJoyData}, {
+::google::protobuf::internal::SCCInfo<4> scc_info_JoyData =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 4, InitDefaultsJoyData}, {
+      &protobuf_protocol_2eproto::scc_info_Ping.base,
       &protobuf_protocol_2eproto::scc_info_Axis.base,
       &protobuf_protocol_2eproto::scc_info_Button.base,
       &protobuf_protocol_2eproto::scc_info_Hat.base,}};
@@ -131,6 +153,7 @@ static void InitDefaultsJoyListData() {
       &protobuf_protocol_2eproto::scc_info_JoyData.base,}};
 
 void InitDefaults() {
+  ::google::protobuf::internal::InitSCC(&scc_info_Ping.base);
   ::google::protobuf::internal::InitSCC(&scc_info_Axis.base);
   ::google::protobuf::internal::InitSCC(&scc_info_Button.base);
   ::google::protobuf::internal::InitSCC(&scc_info_Hat.base);
@@ -138,10 +161,17 @@ void InitDefaults() {
   ::google::protobuf::internal::InitSCC(&scc_info_JoyListData.base);
 }
 
-::google::protobuf::Metadata file_level_metadata[5];
+::google::protobuf::Metadata file_level_metadata[6];
 const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[1];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::NJoy::Ping, _has_bits_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::NJoy::Ping, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::NJoy::Ping, token_),
+  0,
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::NJoy::Axis, _has_bits_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::NJoy::Axis, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -175,11 +205,13 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::NJoy::JoyData, _oneof_case_[0]),
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::NJoy::JoyData, type_),
+  offsetof(::NJoy::JoyDataDefaultTypeInternal, ping_),
   offsetof(::NJoy::JoyDataDefaultTypeInternal, axis_),
   offsetof(::NJoy::JoyDataDefaultTypeInternal, button_),
   offsetof(::NJoy::JoyDataDefaultTypeInternal, hat_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::NJoy::JoyData, test_oneof_),
   0,
+  ~0u,
   ~0u,
   ~0u,
   ~0u,
@@ -192,14 +224,16 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, 7, sizeof(::NJoy::Axis)},
-  { 9, 16, sizeof(::NJoy::Button)},
-  { 18, 25, sizeof(::NJoy::Hat)},
-  { 27, 37, sizeof(::NJoy::JoyData)},
-  { 41, 47, sizeof(::NJoy::JoyListData)},
+  { 0, 6, sizeof(::NJoy::Ping)},
+  { 7, 14, sizeof(::NJoy::Axis)},
+  { 16, 23, sizeof(::NJoy::Button)},
+  { 25, 32, sizeof(::NJoy::Hat)},
+  { 34, 45, sizeof(::NJoy::JoyData)},
+  { 50, 56, sizeof(::NJoy::JoyListData)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
+  reinterpret_cast<const ::google::protobuf::Message*>(&::NJoy::_Ping_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::NJoy::_Axis_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::NJoy::_Button_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::NJoy::_Hat_default_instance_),
@@ -222,25 +256,26 @@ void protobuf_AssignDescriptorsOnce() {
 void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
 void protobuf_RegisterTypes(const ::std::string&) {
   protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 5);
+  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 6);
 }
 
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\016protocol.proto\022\004NJoy\"$\n\004Axis\022\r\n\005index\030"
-      "\001 \002(\005\022\r\n\005value\030\002 \002(\005\"&\n\006Button\022\r\n\005index\030"
-      "\001 \002(\005\022\r\n\005value\030\002 \002(\010\"#\n\003Hat\022\r\n\005index\030\001 \002"
-      "(\005\022\r\n\005value\030\002 \002(\005\"\215\001\n\007JoyData\022\036\n\004type\030\001 "
-      "\002(\0162\020.NJoy.UpdateType\022\032\n\004axis\030\002 \001(\0132\n.NJ"
-      "oy.AxisH\000\022\036\n\006button\030\003 \001(\0132\014.NJoy.ButtonH"
-      "\000\022\030\n\003hat\030\004 \001(\0132\t.NJoy.HatH\000B\014\n\ntest_oneo"
-      "f\"*\n\013JoyListData\022\033\n\004data\030\001 \003(\0132\r.NJoy.Jo"
-      "yData*+\n\nUpdateType\022\010\n\004AXIS\020\001\022\n\n\006BUTTON\020"
-      "\002\022\007\n\003HAT\020\003"
+      "\n\016protocol.proto\022\004NJoy\"\025\n\004Ping\022\r\n\005token\030"
+      "\001 \002(\005\"$\n\004Axis\022\r\n\005index\030\001 \002(\005\022\r\n\005value\030\002 "
+      "\002(\005\"&\n\006Button\022\r\n\005index\030\001 \002(\005\022\r\n\005value\030\002 "
+      "\002(\010\"#\n\003Hat\022\r\n\005index\030\001 \002(\005\022\r\n\005value\030\002 \002(\005"
+      "\"\251\001\n\007JoyData\022\036\n\004type\030\001 \002(\0162\020.NJoy.Update"
+      "Type\022\032\n\004ping\030\002 \001(\0132\n.NJoy.PingH\000\022\032\n\004axis"
+      "\030\003 \001(\0132\n.NJoy.AxisH\000\022\036\n\006button\030\004 \001(\0132\014.N"
+      "Joy.ButtonH\000\022\030\n\003hat\030\005 \001(\0132\t.NJoy.HatH\000B\014"
+      "\n\ntest_oneof\"*\n\013JoyListData\022\033\n\004data\030\001 \003("
+      "\0132\r.NJoy.JoyData*5\n\nUpdateType\022\010\n\004PING\020\001"
+      "\022\010\n\004AXIS\020\002\022\n\n\006BUTTON\020\003\022\007\n\003HAT\020\004"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 370);
+      descriptor, 431);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "protocol.proto", &protobuf_RegisterTypes);
 }
@@ -266,10 +301,239 @@ bool UpdateType_IsValid(int value) {
     case 1:
     case 2:
     case 3:
+    case 4:
       return true;
     default:
       return false;
   }
+}
+
+
+// ===================================================================
+
+void Ping::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int Ping::kTokenFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+Ping::Ping()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  ::google::protobuf::internal::InitSCC(
+      &protobuf_protocol_2eproto::scc_info_Ping.base);
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:NJoy.Ping)
+}
+Ping::Ping(const Ping& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
+      _has_bits_(from._has_bits_) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  token_ = from.token_;
+  // @@protoc_insertion_point(copy_constructor:NJoy.Ping)
+}
+
+void Ping::SharedCtor() {
+  token_ = 0;
+}
+
+Ping::~Ping() {
+  // @@protoc_insertion_point(destructor:NJoy.Ping)
+  SharedDtor();
+}
+
+void Ping::SharedDtor() {
+}
+
+void Ping::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const ::google::protobuf::Descriptor* Ping::descriptor() {
+  ::protobuf_protocol_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_protocol_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const Ping& Ping::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_protocol_2eproto::scc_info_Ping.base);
+  return *internal_default_instance();
+}
+
+
+void Ping::Clear() {
+// @@protoc_insertion_point(message_clear_start:NJoy.Ping)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  token_ = 0;
+  _has_bits_.Clear();
+  _internal_metadata_.Clear();
+}
+
+bool Ping::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:NJoy.Ping)
+  for (;;) {
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required int32 token = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
+          set_has_token();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &token_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:NJoy.Ping)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:NJoy.Ping)
+  return false;
+#undef DO_
+}
+
+void Ping::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:NJoy.Ping)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  // required int32 token = 1;
+  if (cached_has_bits & 0x00000001u) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->token(), output);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        _internal_metadata_.unknown_fields(), output);
+  }
+  // @@protoc_insertion_point(serialize_end:NJoy.Ping)
+}
+
+::google::protobuf::uint8* Ping::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:NJoy.Ping)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  // required int32 token = 1;
+  if (cached_has_bits & 0x00000001u) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(1, this->token(), target);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:NJoy.Ping)
+  return target;
+}
+
+size_t Ping::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:NJoy.Ping)
+  size_t total_size = 0;
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        _internal_metadata_.unknown_fields());
+  }
+  // required int32 token = 1;
+  if (has_token()) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->token());
+  }
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void Ping::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:NJoy.Ping)
+  GOOGLE_DCHECK_NE(&from, this);
+  const Ping* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const Ping>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:NJoy.Ping)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:NJoy.Ping)
+    MergeFrom(*source);
+  }
+}
+
+void Ping::MergeFrom(const Ping& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:NJoy.Ping)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.has_token()) {
+    set_token(from.token());
+  }
+}
+
+void Ping::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:NJoy.Ping)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void Ping::CopyFrom(const Ping& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:NJoy.Ping)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool Ping::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000001) != 0x00000001) return false;
+  return true;
+}
+
+void Ping::Swap(Ping* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void Ping::InternalSwap(Ping* other) {
+  using std::swap;
+  swap(token_, other->token_);
+  swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+}
+
+::google::protobuf::Metadata Ping::GetMetadata() const {
+  protobuf_protocol_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_protocol_2eproto::file_level_metadata[kIndexInFileMessages];
 }
 
 
@@ -1166,12 +1430,28 @@ void Hat::InternalSwap(Hat* other) {
 // ===================================================================
 
 void JoyData::InitAsDefaultInstance() {
+  ::NJoy::_JoyData_default_instance_.ping_ = const_cast< ::NJoy::Ping*>(
+      ::NJoy::Ping::internal_default_instance());
   ::NJoy::_JoyData_default_instance_.axis_ = const_cast< ::NJoy::Axis*>(
       ::NJoy::Axis::internal_default_instance());
   ::NJoy::_JoyData_default_instance_.button_ = const_cast< ::NJoy::Button*>(
       ::NJoy::Button::internal_default_instance());
   ::NJoy::_JoyData_default_instance_.hat_ = const_cast< ::NJoy::Hat*>(
       ::NJoy::Hat::internal_default_instance());
+}
+void JoyData::set_allocated_ping(::NJoy::Ping* ping) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  clear_test_oneof();
+  if (ping) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      ping = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, ping, submessage_arena);
+    }
+    set_has_ping();
+    test_oneof_.ping_ = ping;
+  }
+  // @@protoc_insertion_point(field_set_allocated:NJoy.JoyData.ping)
 }
 void JoyData::set_allocated_axis(::NJoy::Axis* axis) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
@@ -1217,6 +1497,7 @@ void JoyData::set_allocated_hat(::NJoy::Hat* hat) {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int JoyData::kTypeFieldNumber;
+const int JoyData::kPingFieldNumber;
 const int JoyData::kAxisFieldNumber;
 const int JoyData::kButtonFieldNumber;
 const int JoyData::kHatFieldNumber;
@@ -1237,6 +1518,10 @@ JoyData::JoyData(const JoyData& from)
   type_ = from.type_;
   clear_has_test_oneof();
   switch (from.test_oneof_case()) {
+    case kPing: {
+      mutable_ping()->::NJoy::Ping::MergeFrom(from.ping());
+      break;
+    }
     case kAxis: {
       mutable_axis()->::NJoy::Axis::MergeFrom(from.axis());
       break;
@@ -1289,6 +1574,10 @@ const JoyData& JoyData::default_instance() {
 void JoyData::clear_test_oneof() {
 // @@protoc_insertion_point(one_of_clear_start:NJoy.JoyData)
   switch (test_oneof_case()) {
+    case kPing: {
+      delete test_oneof_.ping_;
+      break;
+    }
     case kAxis: {
       delete test_oneof_.axis_;
       break;
@@ -1351,10 +1640,22 @@ bool JoyData::MergePartialFromCodedStream(
         break;
       }
 
-      // optional .NJoy.Axis axis = 2;
+      // optional .NJoy.Ping ping = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+               input, mutable_ping()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // optional .NJoy.Axis axis = 3;
+      case 3: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
                input, mutable_axis()));
         } else {
@@ -1363,10 +1664,10 @@ bool JoyData::MergePartialFromCodedStream(
         break;
       }
 
-      // optional .NJoy.Button button = 3;
-      case 3: {
+      // optional .NJoy.Button button = 4;
+      case 4: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(34u /* 34 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
                input, mutable_button()));
         } else {
@@ -1375,10 +1676,10 @@ bool JoyData::MergePartialFromCodedStream(
         break;
       }
 
-      // optional .NJoy.Hat hat = 4;
-      case 4: {
+      // optional .NJoy.Hat hat = 5;
+      case 5: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(34u /* 34 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(42u /* 42 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
                input, mutable_hat()));
         } else {
@@ -1421,17 +1722,21 @@ void JoyData::SerializeWithCachedSizes(
   }
 
   switch (test_oneof_case()) {
+    case kPing:
+      ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+        2, this->_internal_ping(), output);
+      break;
     case kAxis:
       ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-        2, this->_internal_axis(), output);
+        3, this->_internal_axis(), output);
       break;
     case kButton:
       ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-        3, this->_internal_button(), output);
+        4, this->_internal_button(), output);
       break;
     case kHat:
       ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-        4, this->_internal_hat(), output);
+        5, this->_internal_hat(), output);
       break;
     default: ;
   }
@@ -1457,20 +1762,25 @@ void JoyData::SerializeWithCachedSizes(
   }
 
   switch (test_oneof_case()) {
+    case kPing:
+      target = ::google::protobuf::internal::WireFormatLite::
+        InternalWriteMessageToArray(
+          2, this->_internal_ping(), deterministic, target);
+      break;
     case kAxis:
       target = ::google::protobuf::internal::WireFormatLite::
         InternalWriteMessageToArray(
-          2, this->_internal_axis(), deterministic, target);
+          3, this->_internal_axis(), deterministic, target);
       break;
     case kButton:
       target = ::google::protobuf::internal::WireFormatLite::
         InternalWriteMessageToArray(
-          3, this->_internal_button(), deterministic, target);
+          4, this->_internal_button(), deterministic, target);
       break;
     case kHat:
       target = ::google::protobuf::internal::WireFormatLite::
         InternalWriteMessageToArray(
-          4, this->_internal_hat(), deterministic, target);
+          5, this->_internal_hat(), deterministic, target);
       break;
     default: ;
   }
@@ -1497,21 +1807,28 @@ size_t JoyData::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormatLite::EnumSize(this->type());
   }
   switch (test_oneof_case()) {
-    // optional .NJoy.Axis axis = 2;
+    // optional .NJoy.Ping ping = 2;
+    case kPing: {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSize(
+          *test_oneof_.ping_);
+      break;
+    }
+    // optional .NJoy.Axis axis = 3;
     case kAxis: {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSize(
           *test_oneof_.axis_);
       break;
     }
-    // optional .NJoy.Button button = 3;
+    // optional .NJoy.Button button = 4;
     case kButton: {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSize(
           *test_oneof_.button_);
       break;
     }
-    // optional .NJoy.Hat hat = 4;
+    // optional .NJoy.Hat hat = 5;
     case kHat: {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSize(
@@ -1553,6 +1870,10 @@ void JoyData::MergeFrom(const JoyData& from) {
     set_type(from.type());
   }
   switch (from.test_oneof_case()) {
+    case kPing: {
+      mutable_ping()->::NJoy::Ping::MergeFrom(from.ping());
+      break;
+    }
     case kAxis: {
       mutable_axis()->::NJoy::Axis::MergeFrom(from.axis());
       break;
@@ -1588,6 +1909,12 @@ void JoyData::CopyFrom(const JoyData& from) {
 bool JoyData::IsInitialized() const {
   if ((_has_bits_[0] & 0x00000001) != 0x00000001) return false;
   switch (test_oneof_case()) {
+    case kPing: {
+      if (has_ping()) {
+        if (!this->ping().IsInitialized()) return false;
+      }
+      break;
+    }
     case kAxis: {
       if (has_axis()) {
         if (!this->axis().IsInitialized()) return false;
@@ -1869,6 +2196,9 @@ void JoyListData::InternalSwap(JoyListData* other) {
 }  // namespace NJoy
 namespace google {
 namespace protobuf {
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::NJoy::Ping* Arena::CreateMaybeMessage< ::NJoy::Ping >(Arena* arena) {
+  return Arena::CreateInternal< ::NJoy::Ping >(arena);
+}
 template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::NJoy::Axis* Arena::CreateMaybeMessage< ::NJoy::Axis >(Arena* arena) {
   return Arena::CreateInternal< ::NJoy::Axis >(arena);
 }

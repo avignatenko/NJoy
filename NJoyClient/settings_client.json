@@ -3,6 +3,9 @@
     "Host": "localhost",
     "Port": 1313
   },
+  "Client":  {
+    "PingDelayMs":  5000
+  },
   "Hardware": {
     "JoyId": 0,
     "PollingDelayMs":  20

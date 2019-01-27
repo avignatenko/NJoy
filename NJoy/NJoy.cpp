@@ -20,14 +20,11 @@
 
 using boost::asio::ip::udp;
 
-int initJoystick(int devId)
+void initJoystick(int devId)
 {
     // Get the driver attributes (Vendor ID, Product ID, Version Number)
     if (!vJoyEnabled())
-    {
-        LOG(ERROR) << "Function vJoyEnabled Failed - make sure that vJoy is installed and enabled";
-        return -1;
-    }
+        throw std::runtime_error("Function vJoyEnabled Failed - make sure that vJoy is installed and enabled");
     else
     {
         wprintf(L"Vendor: %s\nProduct :%s\nVersion Number:%s\n", static_cast<TCHAR *> (GetvJoyManufacturerString()), static_cast<TCHAR *>(GetvJoyProductString()), static_cast<TCHAR *>(GetvJoySerialNumberString()));
@@ -46,106 +43,163 @@ int initJoystick(int devId)
         printf("vJoy device %d is free\n", devId);
         break;
     case VJD_STAT_BUSY:
-        printf("vJoy device %d is already owned by another feeder\nCannot continue\n", devId);
-        return -3;
+        throw std::runtime_error("vJoy device is already owned by another feeder");
     case VJD_STAT_MISS:
-        printf("vJoy device %d is not installed or disabled\nCannot continue\n", devId);
-        return -4;
+        throw std::runtime_error("vJoy device is not installed or disabled");
     default:
-        printf("vJoy device %d general error\nCannot continue\n", devId);
-        return -1;
+        throw std::runtime_error("vJoy device general error");
     };
 
     // Acquire the vJoy device
     if (!AcquireVJD(devId))
     {
-        printf("Failed to acquire vJoy device number %d.\n", devId);
-        return -1;
+        throw std::runtime_error("Failed to acquire vJoy device number");
     }
     else
-        printf("Acquired device number %d - OK\n", devId);
-
-    return 0;
+    {
+        LOG(INFO) << "Acquired device number " << devId;
+    }
 }
+
+class Server
+{
+public:
+
+    Server(boost::asio::io_context& io_context, int port, int devId)
+        : m_socket(io_context, udp::endpoint(udp::v4(), port))
+        , m_devId(devId)
+    {
+        startReceive();
+    }
+
+private:
+
+    void onReceived(const boost::system::error_code& error, std::size_t len)
+    {
+        // we're not stopping on error, just log it
+        if (error)
+        {
+            LOG(ERROR) << "Receive error: " << error.message();
+            startReceive();
+            return;
+        }
+
+        NJoy::JoyListData list;
+        list.ParseFromArray(m_recv_buf.data(), len);
+
+        for (int i = 0; i < list.data_size(); ++i)
+        {
+            const NJoy::JoyData& data = list.data(i);
+            switch (data.type())
+            {
+            case NJoy::AXIS:
+            {
+                auto& axis = data.axis();
+                bool res = SetAxis(axis.value(), m_devId, axis.value());
+                if (!res)
+                {
+                    LOG(ERROR) << "Failed to set axis";
+                }
+                break;
+            }
+
+            case NJoy::BUTTON:
+            {
+                auto& button = data.button();
+                bool res = SetBtn(button.value(), m_devId, button.index());
+                if (!res)
+                {
+                    LOG(ERROR) << "Failed to set button";
+                }
+
+                break;
+            }
+
+            case NJoy::HAT:
+            {
+                auto& hat = data.hat();
+                bool res = SetDiscPov(hat.value(), m_devId, hat.index());
+                if (!res)
+                {
+                    LOG(ERROR) << "Failed to set hat";
+                }
+
+                break;
+            }
+
+            case NJoy::PING:
+            {
+                auto& ping = data.ping();
+                LOG(INFO) << "Ping received with token " << ping.token();
+                LOG(INFO) << "Sending ping back";
+                // send data back to show we're alive
+                m_socket.async_send_to(boost::asio::buffer(m_recv_buf, len), m_remote_endpoint, 0,
+                                       [](const boost::system::error_code& error, std::size_t len)
+                {
+                    if (error)
+                    {
+                        LOG(ERROR) << "Send error: " << error.message();
+                    }
+                });
+            }
+            }
+
+        }
+
+        startReceive();
+    }
+
+    void startReceive()
+    {
+        m_socket.async_receive_from(
+            boost::asio::buffer(m_recv_buf), m_remote_endpoint,
+            [this](const boost::system::error_code& error, std::size_t len)
+        {
+            onReceived(error, len);
+        }
+        );
+    }
+private:
+
+    udp::socket m_socket;
+    udp::endpoint m_remote_endpoint;
+
+    int m_devId;
+    std::array<char, 256> m_recv_buf = {}; // fixme: what is max size?
+
+};
 
 
 int main(int argc, char* argv[])
 {
     GOOGLE_PROTOBUF_VERIFY_VERSION;
 
-    // Initialize Google's logging library.
-    google::InitGoogleLogging(argv[0]);
-    FLAGS_logtostderr = true;
-
-    Settings::setPath("settings_server.json");
-
-    LOG(INFO) << "Starting...";
-
-
-
-    int devId = Settings::instance().get<int>("vJoy.DeviceID");
-
-    int res = initJoystick(devId);
-    if (res < 0) return res;
-
-    // start server
-
     try
     {
+
+        // Initialize Google's logging library.
+        google::InitGoogleLogging(argv[0]);
+        FLAGS_logtostderr = true;
+
+        Settings::setPath("settings_server.json");
+
+        LOG(INFO) << "Starting...";
+
+        int devId = Settings::instance().get<int>("vJoy.DeviceID");
+
+        initJoystick(devId);
+
         boost::asio::io_context io_context;
+        const int port = Settings::instance().get<int>("Server.Port");
 
-        int port = Settings::instance().get<int>("Server.Port");
+        Server server(io_context, port, devId);
 
-        udp::socket socket(io_context, udp::endpoint(udp::v4(), port));
+        io_context.run();
 
-        for (;;)
-        {
-            std::array<char, 256> recv_buf; // fixme: what is max size?
-            udp::endpoint remote_endpoint;
-            boost::system::error_code error;
-            size_t len = socket.receive_from(boost::asio::buffer(recv_buf),
-                                             remote_endpoint, 0, error);
-
-            if (error && error != boost::asio::error::message_size)
-                throw boost::system::system_error(error);
-
-            NJoy::JoyListData list;
-            list.ParseFromArray(recv_buf.data(), len);
-
-            for (int i = 0; i < list.data_size(); ++i)
-            {
-                const NJoy::JoyData& data = list.data(i);
-                switch (data.type())
-                {
-                case NJoy::AXIS:
-                {
-                    auto& axis = data.axis();
-                    bool res = SetAxis(axis.value(), devId, axis.value());
-                    break;
-                }
-
-                case NJoy::BUTTON:
-                {
-                    auto& button = data.button();
-                    bool res = SetBtn(button.value(), devId, button.index());
-                    break;
-                }
-
-                case NJoy::HAT:
-                {
-                    auto& hat = data.hat();
-                    bool res = SetDiscPov(hat.value(), devId, hat.index());
-                    break;
-                }
-
-                }
-
-            }
-
-        }
     }
     catch (std::exception& e)
     {
-        std::cerr << e.what() << std::endl;
+        LOG(ERROR) << e.what();
+        return -1;
     }
 }
