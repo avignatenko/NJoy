@@ -1,0 +1,8 @@
+[requires]
+protobuf/3.9.1@bincrafters/stable
+boost/1.71.0@conan/stable
+glog/0.4.0@bincrafters/stable
+sdl2/2.0.12@bincrafters/stable
+
+[generators]
+visual_studio

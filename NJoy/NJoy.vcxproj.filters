@@ -31,5 +31,6 @@
     <Text Include="settings_server.json">
       <Filter>Source Files</Filter>
     </Text>
+    <Text Include="conanfile.txt" />
   </ItemGroup>
 </Project>

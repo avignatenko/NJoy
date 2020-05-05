@@ -74,15 +74,31 @@ public:
 
 private:
 
+// copy-paste from SDL
+#define SDL_HAT_CENTERED    0x00
+#define SDL_HAT_UP          0x01
+#define SDL_HAT_RIGHT       0x02
+#define SDL_HAT_DOWN        0x04
+#define SDL_HAT_LEFT        0x08
+#define SDL_HAT_RIGHTUP     (SDL_HAT_RIGHT|SDL_HAT_UP)
+#define SDL_HAT_RIGHTDOWN   (SDL_HAT_RIGHT|SDL_HAT_DOWN)
+#define SDL_HAT_LEFTUP      (SDL_HAT_LEFT|SDL_HAT_UP)
+#define SDL_HAT_LEFTDOWN    (SDL_HAT_LEFT|SDL_HAT_DOWN)
+
+
     static int SDLHatToVJoy(int sdl)
     {
         switch (sdl)
         {
-        case 0x00 : return -1;  //   SDL_HAT_CENTERED    0x00
-        case 0x01 : return  0; //#define SDL_HAT_UP          0x01
-        case 0x02 : return  1; //#define SDL_HAT_RIGHT       0x02
-        case 0x04 : return  2; //#define SDL_HAT_DOWN        0x04
-        case 0x08 : return  3; //#define SDL_HAT_LEFT        0x08
+        case SDL_HAT_CENTERED: return -1; 
+        case SDL_HAT_UP: return  0; 
+        case SDL_HAT_RIGHTUP: return (0 + 9000) / 2;
+        case SDL_HAT_RIGHT: return  9000;
+        case SDL_HAT_RIGHTDOWN: return (9000 + 18000) / 2;
+        case SDL_HAT_DOWN: return  18000; 
+        case SDL_HAT_LEFTDOWN: return (18000 + 27000) / 2;
+        case SDL_HAT_LEFT: return  27000; 
+        case SDL_HAT_LEFTUP: return (27000 + 36000) / 2;
         default:  return -1;
         }
     }
@@ -131,7 +147,7 @@ private:
             case NJoy::HAT:
             {
                 auto& hat = data.hat();
-                bool res = SetDiscPov(SDLHatToVJoy(hat.value()), m_devId, hat.index() + 1);
+                bool res = SetContPov(SDLHatToVJoy(hat.value()), m_devId, hat.index() + 1);
                 if (!res)
                 {
                     LOG(ERROR) << "Failed to set hat";
